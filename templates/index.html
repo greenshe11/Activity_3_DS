@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Startup Profit</title>
+    <style>
+        body {
+            background-color: #000;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            color: white;
+            
+        }
+
+        .login {
+            background-color: #fff;
+            max-width: 300px;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: #bd9820;
+            
+            
+        }
+
+        .login h1 {
+            margin-bottom: 20px;
+        }
+
+        .login input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login button {
+            width: 100%;
+            padding: 10px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login h4 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    Eugene Dave G. Tumagan BSCS 4B
+    <div class="login">
+        <h1>Predict Startup Profit</h1>
+        <form action="/create_file", method="POST">
+            <p>R&D Spending</p>
+            <input type="text" id="rnd" name="rnd" placeholder="₱" required="required" /><br>
+            <p>Marketing Spending</p>
+            <input type="text" id= "marketing" name="marketing" placeholder="₱" required="required" /><br>
+            <p>Predicted Profit</p>
+            <input type="text" id= "value" readonly name="profit" placeholder="₱"/>
+        </form>
+        <br>
+        <br>
+        
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script>
+    // Get a reference to the HTML element by its id
+    var count = 0;
+    last1 = 0
+    last2 = 0
+    function update() {
+        const inputValue1 = document.getElementById("marketing").value;
+        const inputValue2 = document.getElementById("rnd").value
+        if (inputValue1 != last1 || inputValue2 != last2){
+            last1 = inputValue1
+            last2 = inputValue2
+        fetch('/create_file', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ input2: inputValue1, input1: inputValue2})
+            }).then(response => response.text())
+                .then(data=>document.getElementById('value').value = `${data}`);
+                
+        }
+    }
+    setInterval(update, 100); // Pass the function reference, don't call it
+</script>
+</html>
